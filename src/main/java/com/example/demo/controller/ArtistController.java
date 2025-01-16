@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Album;
 import com.example.demo.model.Artist;
+import com.example.demo.service.AlbumService;
 import com.example.demo.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,10 @@ public class ArtistController {
 
     @Autowired
     private ArtistService artistService;
+
+    @Autowired
+    private AlbumService albumService;
+
 
     // Get all artists
     @GetMapping
@@ -63,4 +69,15 @@ public class ArtistController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{artistId}/albums")
+    public ResponseEntity<List<Album>> getAlbumsByArtist(@PathVariable Long artistId) {
+        List<Album> albums = artistService.getAlbumsByArtistId(artistId);
+        if (!albums.isEmpty()) {
+            return ResponseEntity.ok(albums);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

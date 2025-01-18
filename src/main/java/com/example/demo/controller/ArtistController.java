@@ -1,9 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ArtistRequest;
 import com.example.demo.model.Album;
 import com.example.demo.model.Artist;
-import com.example.demo.service.AlbumService;
-import com.example.demo.service.ArtistService;
+import com.example.demo.inteface.AlbumService;
+import com.example.demo.inteface.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,11 @@ public class ArtistController {
     @Autowired
     private AlbumService albumService;
 
+    @Autowired
+    public ArtistController(ArtistService artistService) {
+        this.artistService = artistService;
+    }
+
 
     // Get all artists
     @GetMapping
@@ -32,27 +38,29 @@ public class ArtistController {
     @GetMapping("/{id}")
     public ResponseEntity<Artist> getArtistById(@PathVariable Long id) {
         Optional<Artist> artist = artistService.getArtistById(id);
-        if (artist.isPresent()) {
-            return ResponseEntity.ok(artist.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return artist.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Create a new artist
     @PostMapping
-    public Artist createArtist(@RequestBody Artist artist) {
-        return artistService.saveArtist(artist);
+    public ResponseEntity<Artist> createArtist(@RequestBody ArtistRequest artistRequest) {
+        Artist artist = new Artist();
+        artist.setName(artistRequest.getName());
+
+        Artist savedArtist = artistService.saveArtist(artist);
+        return ResponseEntity.ok(savedArtist);
     }
 
     // Update an existing artist
     @PutMapping("/{id}")
     public ResponseEntity<Artist> updateArtist(@PathVariable Long id, @RequestBody Artist artistDetails) {
         Optional<Artist> existingArtist = artistService.getArtistById(id);
+
         if (existingArtist.isPresent()) {
             Artist artist = existingArtist.get();
-            artist.setName(artistDetails.getName());
-            return ResponseEntity.ok(artistService.saveArtist(artist));
+            artist.setName(artistDetails.getName()); // Assuming Artist has a 'name' field
+            Artist updatedArtist = artistService.saveArtist(artist);
+            return ResponseEntity.ok(updatedArtist);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -70,6 +78,7 @@ public class ArtistController {
         }
     }
 
+    // Get albums by artist ID
     @GetMapping("/{artistId}/albums")
     public ResponseEntity<List<Album>> getAlbumsByArtist(@PathVariable Long artistId) {
         List<Album> albums = artistService.getAlbumsByArtistId(artistId);
@@ -79,5 +88,4 @@ public class ArtistController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

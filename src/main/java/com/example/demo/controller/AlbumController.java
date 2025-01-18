@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.inteface.AlbumService;
+import com.example.demo.inteface.ArtistService;
 import com.example.demo.model.Album;
-import com.example.demo.service.AlbumService;
-import com.example.demo.service.ArtistService;
+import com.example.demo.dto.AlbumRequest;
+import com.example.demo.model.Artist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +18,14 @@ import java.util.Optional;
 public class AlbumController {
 
     @Autowired
+    private AlbumService albumService;
+    @Autowired
     private ArtistService artistService;
 
     @Autowired
-    private AlbumService albumService;
+    public AlbumController(AlbumService albumService) {
+        this.albumService = albumService;
+    }
 
     // Get all albums
     @GetMapping
@@ -36,7 +43,19 @@ public class AlbumController {
 
     // Create a new album
     @PostMapping
-    public ResponseEntity<Album> createAlbum(@RequestBody Album album) {
+    public ResponseEntity<Album> createAlbum(@RequestBody AlbumRequest albumRequest) {
+        // Fetch the artist entity by ID
+        Optional<Artist> artistOptional = artistService.getArtistById(albumRequest.getArtistId());
+        if (artistOptional.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Map the DTO to an entity
+        Album album = new Album();
+        album.setTitle(albumRequest.getTitle());
+        album.setArtist(artistOptional.get());
+
+        // Delegate to the service
         Album savedAlbum = albumService.saveAlbum(album);
         return ResponseEntity.ok(savedAlbum);
     }
@@ -48,7 +67,6 @@ public class AlbumController {
         if (existingAlbum.isPresent()) {
             Album album = existingAlbum.get();
             album.setTitle(albumDetails.getTitle()); // Assuming Album has a 'title' field
-            album.setArtist(albumDetails.getArtist()); // Assuming Album has an 'artist' field
             Album updatedAlbum = albumService.saveAlbum(album);
             return ResponseEntity.ok(updatedAlbum);
         } else {
@@ -66,5 +84,4 @@ public class AlbumController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

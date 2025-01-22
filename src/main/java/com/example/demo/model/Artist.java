@@ -12,7 +12,7 @@ public class Artist {
     private Long id;
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Album> albums = new ArrayList<>();
 
     public Artist() {}

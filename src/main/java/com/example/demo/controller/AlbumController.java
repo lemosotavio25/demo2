@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AlbumResponse;
 import com.example.demo.inteface.AlbumService;
 import com.example.demo.inteface.ArtistService;
 import com.example.demo.model.Album;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +31,22 @@ public class AlbumController {
 
     // Get all albums
     @GetMapping
-    public ResponseEntity<List<Album>> getAllAlbums() {
+    public ResponseEntity<List<AlbumResponse>> getAllAlbums() {
         List<Album> albums = albumService.getAllAlbums();
-        return ResponseEntity.ok(albums);
+        List<AlbumResponse> responseDTOList = new ArrayList<>();
+
+        for (Album album : albums) {
+            responseDTOList.add(
+                    new AlbumResponse(
+                            album.getId(),
+                            album.getTitle(),
+                            album.getArtist().getId(),
+                            album.getArtist().getName()
+                    )
+            );
+        }
+
+        return ResponseEntity.ok(responseDTOList);
     }
 
     // Get album by ID

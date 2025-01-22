@@ -1,7 +1,5 @@
 package com.example.demo.model;
-import com.example.demo.model.Artist;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,8 +12,7 @@ public class Album {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "artist_id", nullable = false) // Foreign key column
-    @JsonBackReference // Prevent recursion when serializing
+    @JoinColumn(name = "artist_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_artist")) // Foreign key column
     private Artist artist;
 
     // Getters and Setters

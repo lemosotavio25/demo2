@@ -9,15 +9,7 @@ public class AlbumRequest {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Long getArtistId() {
         return artistId;
-    }
-
-    public void setArtistId(Long artistId) {
-        this.artistId = artistId;
     }
 }

@@ -6,7 +6,7 @@ import com.example.demo.repository.AlbumRepository;
 import com.example.demo.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.inteface.ArtistService;
+import com.example.demo.interfaces.ArtistService;
 
 import java.util.Collections;
 import java.util.List;

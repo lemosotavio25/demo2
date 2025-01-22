@@ -1,4 +1,4 @@
-package com.example.demo.inteface;
+package com.example.demo.interfaces;
 
 import com.example.demo.model.Album;
 import com.example.demo.model.Artist;

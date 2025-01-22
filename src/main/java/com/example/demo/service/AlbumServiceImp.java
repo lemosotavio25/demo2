@@ -1,11 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.inteface.AlbumService;
+import com.example.demo.interfaces.AlbumService;
 import com.example.demo.model.Album;
 import com.example.demo.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

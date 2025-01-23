@@ -15,7 +15,6 @@ public class AlbumServiceImp implements AlbumService {
     @Autowired
     private final AlbumRepository albumRepository;
 
-
     public AlbumServiceImp(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
     }

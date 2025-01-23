@@ -27,21 +27,17 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-
-    // Get all artists
     @GetMapping
     public List<Artist> getAllArtists() {
         return artistService.getAllArtists();
     }
 
-    // Get artist by ID
     @GetMapping("/{id}")
     public ResponseEntity<Artist> getArtistById(@PathVariable Long id) {
         Optional<Artist> artist = artistService.getArtistById(id);
         return artist.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Create a new artist
     @PostMapping
     public ResponseEntity<Artist> createArtist(@RequestBody ArtistRequest artistRequest) {
         Artist artist = new Artist();
@@ -51,7 +47,6 @@ public class ArtistController {
         return ResponseEntity.ok(savedArtist);
     }
 
-    // Update an existing artist
     @PutMapping("/{id}")
     public ResponseEntity<Artist> updateArtist(@PathVariable Long id, @RequestBody Artist artistDetails) {
         Optional<Artist> existingArtist = artistService.getArtistById(id);
@@ -66,7 +61,6 @@ public class ArtistController {
         }
     }
 
-    // Delete an artist
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteArtist(@PathVariable Long id) {
         Optional<Artist> artist = artistService.getArtistById(id);
@@ -78,7 +72,6 @@ public class ArtistController {
         }
     }
 
-    // Get albums by artist ID
     @GetMapping("/{artistId}/albums")
     public ResponseEntity<List<Album>> getAlbumsByArtist(@PathVariable Long artistId) {
         List<Album> albums = artistService.getAlbumsByArtistId(artistId);

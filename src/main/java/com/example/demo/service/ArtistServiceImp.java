@@ -25,26 +25,21 @@ public class ArtistServiceImp implements ArtistService {
         this.artistRepository = artistRepository;
     }
 
-
-    // Get all artists
     @Override
     public List<Artist> getAllArtists() {
         return artistRepository.findAll();
     }
 
-    // Get artist by ID
     @Override
     public Optional<Artist> getArtistById(Long id) {
         return artistRepository.findById(id);
     }
 
-    // Save or update an artist
     @Override
     public Artist saveArtist(Artist artist) {
         return artistRepository.save(artist);
     }
 
-    // Delete an artist by ID
     @Override
     public Artist deleteArtist(Long id) {
         artistRepository.deleteById(id);

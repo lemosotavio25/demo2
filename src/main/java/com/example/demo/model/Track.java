@@ -14,17 +14,13 @@ public class Track {
     @JoinColumn(name = "album_id", nullable = false, foreignKey = @ForeignKey(name = "fk_track_album"))
     private Album album;
 
-    // Default constructor (required by JPA)
-    public Track() {
-    }
+    public Track() {    }
 
-    // Parameterized constructor
     public Track(String title, Album album) {
         this.title = title;
         this.album = album;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

@@ -2,6 +2,9 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Album {
 
@@ -14,6 +17,9 @@ public class Album {
     @ManyToOne
     @JoinColumn(name = "artist_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_artist")) // Foreign key column
     private Artist artist;
+
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Track> tracks = new ArrayList<>();
 
     // Getters and Setters
     public Long getId() {

@@ -29,7 +29,6 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
-    // Get all albums
     @GetMapping
     public ResponseEntity<List<AlbumResponse>> getAllAlbums() {
         List<Album> albums = albumService.getAllAlbums();
@@ -49,33 +48,27 @@ public class AlbumController {
         return ResponseEntity.ok(responseDTOList);
     }
 
-    // Get album by ID
     @GetMapping("/{id}")
     public ResponseEntity<Album> getAlbumById(@PathVariable Long id) {
         Optional<Album> album = albumService.getAlbumById(id);
         return album.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Create a new album
     @PostMapping
     public ResponseEntity<Album> createAlbum(@RequestBody AlbumRequest albumRequest) {
-        // Fetch the artist entity by ID
         Optional<Artist> artistOptional = artistService.getArtistById(albumRequest.getArtistId());
         if (artistOptional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        // Map the DTO to an entity
         Album album = new Album();
         album.setTitle(albumRequest.getTitle());
         album.setArtist(artistOptional.get());
 
-        // Delegate to the service
         Album savedAlbum = albumService.saveAlbum(album);
         return ResponseEntity.ok(savedAlbum);
     }
 
-    // Update an existing album
     @PutMapping("/{id}")
     public ResponseEntity<Album> updateAlbum(@PathVariable Long id, @RequestBody Album albumDetails) {
         Optional<Album> existingAlbum = albumService.getAlbumById(id);
@@ -89,7 +82,6 @@ public class AlbumController {
         }
     }
 
-    // Delete an album
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {
         if (albumService.getAlbumById(id).isPresent()) {

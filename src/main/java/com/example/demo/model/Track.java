@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class Track {
 
     @ManyToOne
     @JoinColumn(name = "album_id", nullable = false, foreignKey = @ForeignKey(name = "fk_track_album"))
+    @JsonBackReference
     private Album album;
 
     public Track() {    }

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,10 +16,12 @@ public class Album {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "artist_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_artist")) // Foreign key column
+    @JoinColumn(name = "artist_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_artist"))
+    @JsonBackReference
     private Artist artist;
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Track> tracks = new ArrayList<>();
 
     // Getters and Setters

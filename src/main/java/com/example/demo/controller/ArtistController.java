@@ -16,10 +16,8 @@ import java.util.Optional;
 @RequestMapping("/artists")
 public class ArtistController {
 
-    @Autowired
     private ArtistService artistService;
 
-    @Autowired
     private AlbumService albumService;
 
     @Autowired

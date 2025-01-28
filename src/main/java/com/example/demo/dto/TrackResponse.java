@@ -1,4 +1,3 @@
 package com.example.demo.dto;
 
-public record TrackResponse(String title, String albumName) {
-}
+public record TrackResponse(Long trackId, String title) {}

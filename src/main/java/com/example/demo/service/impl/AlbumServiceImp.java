@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.interfaces.AlbumService;
 import com.example.demo.model.Album;
 import com.example.demo.repository.AlbumRepository;
+import com.example.demo.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

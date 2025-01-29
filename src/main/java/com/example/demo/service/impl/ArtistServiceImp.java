@@ -1,12 +1,12 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.Artist;
 import com.example.demo.model.Album;
 import com.example.demo.repository.AlbumRepository;
 import com.example.demo.repository.ArtistRepository;
+import com.example.demo.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.interfaces.ArtistService;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,12 +15,12 @@ import java.util.Optional;
 @Service
 public class ArtistServiceImp implements ArtistService {
 
-    @Autowired
-    private ArtistRepository artistRepository;
 
-    @Autowired
+    private final ArtistRepository artistRepository;
+
     private AlbumRepository albumRepository;
 
+    @Autowired
     public ArtistServiceImp(ArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
     }

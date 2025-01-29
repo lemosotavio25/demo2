@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.response.AlbumResponse;
-import com.example.demo.interfaces.AlbumService;
-import com.example.demo.interfaces.ArtistService;
+import com.example.demo.service.AlbumService;
+import com.example.demo.service.ArtistService;
 import com.example.demo.model.Album;
 import com.example.demo.dto.request.AlbumRequest;
 import com.example.demo.model.Artist;

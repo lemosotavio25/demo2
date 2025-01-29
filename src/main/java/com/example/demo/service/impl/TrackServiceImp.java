@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.interfaces.TrackService;
 import com.example.demo.model.Track;
 import com.example.demo.repository.TrackRepository;
+import com.example.demo.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

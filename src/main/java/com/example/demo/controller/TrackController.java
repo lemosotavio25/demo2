@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.TrackResponse;
+import com.example.demo.dto.response.TrackResponse;
+import com.example.demo.dto.response.TrackSummary;
 import com.example.demo.interfaces.AlbumService;
 import com.example.demo.interfaces.TrackService;
-import com.example.demo.dto.TrackRequest;
+import com.example.demo.dto.request.TrackRequest;
 import com.example.demo.model.Album;
+import com.example.demo.model.Artist;
 import com.example.demo.model.Track;
 import com.example.demo.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ public class TrackController {
         this.trackRepository = trackRepository;
     }
 
-
     @PostMapping
     public ResponseEntity<TrackResponse> saveTrack(@RequestBody TrackRequest trackrequest){
         Optional<Album> albumOptional = albumService.getAlbumById(trackrequest.getAlbumId());
@@ -55,36 +56,42 @@ public class TrackController {
         Optional<Track> existingTrack = trackService.getTrackById(id);
         if (existingTrack.isEmpty()) {
             return ResponseEntity.badRequest().build();
-        } else {
-            Track track = existingTrack.get();
-            track.setTitle(trackrequest.getTitle());
-            trackRepository.save(track);
-            TrackResponse trackResponse = new TrackResponse(
-                    track.getId(),
-                    track.getTitle()
-            );
-            return ResponseEntity.status(HttpStatus.OK).body(trackResponse);
-
-
         }
-
+        Track track = existingTrack.get();
+        track.setTitle(trackrequest.getTitle());
+        trackRepository.save(track);
+        TrackResponse trackResponse = new TrackResponse(
+                track.getId(),
+                track.getTitle()
+            );
+        return ResponseEntity.status(HttpStatus.OK).body(trackResponse);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TrackResponse> getTrackById(@PathVariable Long id){
+    public ResponseEntity<?> getTrackById(@PathVariable Long id){
         Optional<Track> existingTrack = trackService.getTrackById(id);
+
         if (existingTrack.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        else{
-            Track track = existingTrack.get();
-            TrackResponse trackResponse = new TrackResponse(
-                    track.getId(),
-                    track.getTitle()
-            );
-            return ResponseEntity.status(HttpStatus.OK).body(trackResponse);
+            return ResponseEntity.badRequest().body("Track or Album not found");
         }
 
+        Track track = existingTrack.get();
+        Optional<Album> existingAlbum = albumService.getAlbumById(track.getAlbum().getId());
+
+        if (existingAlbum.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Album album = existingAlbum.get();
+
+        Artist artist = album.getArtist();
+
+        TrackSummary trackSummary = new TrackSummary(
+                track.getId(),
+                track.getTitle(),
+                album.getTitle(),
+                artist.getName());
+        return ResponseEntity.status(HttpStatus.OK).body(trackSummary);
     }
 
     @DeleteMapping("/{id}")
@@ -115,6 +122,4 @@ public class TrackController {
 
         return ResponseEntity.ok(trackResponses);
     }
-
-
 }

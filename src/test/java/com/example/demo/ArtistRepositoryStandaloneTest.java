@@ -24,11 +24,7 @@ public class ArtistRepositoryStandaloneTest {
 
         // Act
         Artist savedArtist = artistRepository.save(artist);
-        System.out.println("Saved Artist ID: " + savedArtist.getId());
-        System.out.println("Saved Artist Name: " + savedArtist.getName());
-
         Optional<Artist> foundArtist = artistRepository.findById(savedArtist.getId());
-        System.out.println("Found Artist: " + foundArtist);
 
         // Assert
         assertThat(foundArtist).isPresent();

@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ArtistRequest;
+import com.example.demo.dto.request.ArtistRequest;
 import com.example.demo.model.Album;
 import com.example.demo.model.Artist;
 import com.example.demo.interfaces.AlbumService;

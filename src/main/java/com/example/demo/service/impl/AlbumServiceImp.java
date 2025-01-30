@@ -12,9 +12,10 @@ import java.util.Optional;
 @Service
 public class AlbumServiceImp implements AlbumService {
 
-    @Autowired
+
     private final AlbumRepository albumRepository;
 
+    @Autowired
     public AlbumServiceImp(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
     }

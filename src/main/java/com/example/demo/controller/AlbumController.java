@@ -19,14 +19,14 @@ import java.util.Optional;
 @RequestMapping("/albums")
 public class AlbumController {
 
-    @Autowired
-    private AlbumService albumService;
-    @Autowired
-    private ArtistService artistService;
+    private final AlbumService albumService;
+
+    private final ArtistService artistService;
 
     @Autowired
-    public AlbumController(AlbumService albumService) {
+    public AlbumController(AlbumService albumService, ArtistService artistService) {
         this.albumService = albumService;
+        this.artistService = artistService;
     }
 
     @GetMapping

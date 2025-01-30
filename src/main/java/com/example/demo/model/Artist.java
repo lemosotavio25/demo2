@@ -23,6 +23,11 @@ public class Artist {
         this.name = name;
     }
 
+    public Artist(long l, String s) {
+        this.name = s;
+        this.id = l;
+    }
+
     public Long getId() {
         return id;
     }
